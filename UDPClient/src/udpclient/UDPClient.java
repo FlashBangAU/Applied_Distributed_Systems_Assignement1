@@ -47,9 +47,10 @@ public class UDPClient {
             DatagramPacket reply = new DatagramPacket(buffer,
                     buffer.length);
             aSocket.receive(reply);
-            System.out.println("Server Response: Received message"
-                    + new String(reply.getData()) + " server at port "
-                    + reply.getPort() + " at address " + reply.getAddress());
+            System.out.println("Server Response: " + "\n" +
+                    "|First Name    |Last Name      |Address        |Phone Number   |" + "\n"
+                    + "================================================================" + "\n"
+                    + new String(reply.getData()));
         } catch (SocketException e) {
             System.out.println("Socket: " + e.getMessage());
         } catch (IOException e) {
