@@ -76,7 +76,7 @@ class Connection extends Thread {
             output.close();
             
             //data is sent back to client
-            out.writeUTF("Save Data of the member number: " + data);
+            out.writeUTF("Save Data of the member number: ");
 
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
