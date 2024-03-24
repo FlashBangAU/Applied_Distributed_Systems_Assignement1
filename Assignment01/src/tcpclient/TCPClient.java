@@ -94,8 +94,6 @@ public class TCPClient {
 
                 System.out.println("Exit Program Y/N: ");
                 strAns = input.nextLine();
-                //second Scanner input as last input is skipped
-                strAns = input.nextLine();
                 if("y".equals(strAns) || "Y".equals(strAns))
                     exit = true;
                 System.out.println("-----------------------------------");
