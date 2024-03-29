@@ -37,29 +37,49 @@ public class TCPClient {
         //if running from a command prompt
         Socket s = null;
         String hostName = "localhost";
-        String message = "cheese";
+        String message = null;
         int i = 1;
+        boolean letters = true;
 
         try {
             while (exit == false) {
                 details.clear();
 
                 //acquire member details
-                System.out.println("Enter Detail for Member Number:" + i);
-                System.out.println("Enter your First Name:");
+                System.out.println("Enter Detail for Member Number: " + i);
+                System.out.println("Enter your First Name: ");
                 strAns = input.nextLine();
+                letters = isLetters(strAns);
+                if(letters == false){
+                    System.out.println("Input requires letters only. Try again."+"\n");
+                    continue;
+                }
                 details.add(strAns);
 
-                System.out.println("Enter your Last Name:");
+                System.out.println("Enter your Last Name: ");
                 strAns = input.nextLine();
+                letters = isLetters(strAns);
+                if(letters == false){
+                    System.out.println("Input requires letters only. Try again from beginning."+"\n");
+                    continue;
+                }
                 details.add(strAns);
 
-                System.out.println("Enter your Address:");
+                System.out.println("Enter your Address: ");
                 strAns = input.nextLine();
+                if (strAns.isEmpty() || !strAns.matches("[a-zA-Z0-9]+") && !strAns.contains(" ")){
+                    System.out.println("Input must not be empty. Try again from beginning."+"\n");
+                    continue;
+                } else {
+                }
                 details.add(strAns);
 
-                System.out.println("Enter your Phone Number:");
+                System.out.println("Enter your Phone Number: ");
                 strAns = input.nextLine();
+                if (!strAns.matches("[0-9]+") || strAns.isEmpty() || strAns.contains(" ") || strAns.length()>10) {
+                    System.out.println("Input must be numbers only and below 11 numbers. Try again from beginning."+"\n");
+                    continue;
+                }
                 details.add(strAns);
 
                 StringBuilder str = new StringBuilder("");
@@ -68,7 +88,7 @@ public class TCPClient {
                 for (String eachstring : details) {
 
                     // Each element in ArrayList is appended
-                    // followed by comma
+                    // followed by colon
                     str.append(eachstring).append(":");
                 }
 
@@ -78,7 +98,7 @@ public class TCPClient {
                     message = message.substring(0, message.length() - 1);
                 }
 
-                int serverPort = 7896;
+                int serverPort = 1130;
 
                 s = new Socket(hostName, serverPort);
                 DataInputStream in = new DataInputStream(s.getInputStream());
@@ -114,5 +134,13 @@ public class TCPClient {
                 System.out.println("close:" + e.getMessage());
             }
         }
+    }
+    
+    public static boolean isLetters(String userInput){
+        boolean bool = true;
+        if(!userInput.matches("[a-zA-Z]+") || userInput.isEmpty() || userInput.contains(" "))
+            bool = false;
+        
+        return bool;
     }
 }
