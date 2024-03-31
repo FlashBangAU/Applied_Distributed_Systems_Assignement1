@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import static java.lang.System.out;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +18,7 @@ import java.util.logging.Logger;
  *
  * @author User
  */
+//holds member class
 public class Member implements Serializable {
 
     String firstName;
@@ -65,45 +65,49 @@ public class Member implements Serializable {
         this.phNumber = phNumber;
     }
 
+    //memberObject serializastion from .txt file to objectFile
     public static String memberSerialization() throws IOException {
         int i = 0;
         ObjectOutputStream out = null;
 
-        String filename = "memberlistObject";
-        
-        FileOutputStream fos = null;
+        final String filename = "memberlistObject";
 
-        //out.reset();
+        FileOutputStream fos = null;
 
         try {
             File myObj = new File("memberList.txt");
             Scanner myReader = new Scanner(myObj);
+            //will read until every line in memberList.txt is processed
             while (myReader.hasNextLine()) {
-                if (i==0){
-                fos = new FileOutputStream(filename, false);
-                }else{
+                //if process is just beginning previous data will be wiped
+                if (i == 0) {
+                    fos = new FileOutputStream(filename, false);
+                    i++;
+                } else {
                     fos = new FileOutputStream(filename, true);
                 }
-                i++;
                 out = new ObjectOutputStream(fos);
 
                 String data = myReader.nextLine();
-                System.out.println(data);
+                //System.out.println(data);
 
+                //colon is removed and used as a split point
                 String[] memberArray = data.split(":");
 
-                Member member1 = new Member(memberArray[0], memberArray[1], memberArray[2], memberArray[3]);
+                //members a member object
+                Member member = new Member(memberArray[0], memberArray[1], memberArray[2], memberArray[3]);
 
+                //members are saved in memberlistObject
                 try {
-                    out.writeObject(member1);
+                    out.writeObject(member);
+                    out.reset();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
 
             }
             out.close();
-            System.out.println("Object Persisted");
-            System.out.println();
+            //System.out.println("Object Persisted"+ "\n");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(UpdateMemberlistObject.class.getName()).log(Level.SEVERE, null, ex);
         }

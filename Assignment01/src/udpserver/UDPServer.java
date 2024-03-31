@@ -12,6 +12,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import tcpserver.Member;
 
@@ -63,42 +64,43 @@ public class UDPServer {
 
     //collects memberObjects in arrayList to send as byte to client
     public static byte[] memberDeserialization() throws IOException, ClassNotFoundException {
+        //memberList List = new List();
         ArrayList<String> details = new ArrayList<>();
 
         final String fileName = "memberlistObject";
         Member member = null;
         FileInputStream fis = new FileInputStream(fileName);
         ObjectInputStream in = new ObjectInputStream(fis);
-        boolean cont = true;
+        //int i = 0;
 
         //loops through to add member Object in file to arraylist
         try {
-            member = (Member) in.readObject();
-            while (cont) {
-
+            //ArrayList<Member> member = (ArrayList<Member>)in.readObject();
+            //System.out.println(member);
+            
+            //member = (Member) in.readObject();
+            while (fis.available() != 0) {
+                member = (Member) in.readObject();
                 if (member != null) {
-
-                    System.out.println(member.getFirstName());
-                    System.out.println();
+                    //System.out.println(member.getFirstName());
+                    //System.out.println();
 
                     details.add(member.getFirstName());
                     details.add(member.getLastName());
                     details.add(member.getAddress());
                     details.add(member.getPhNumber());
-                } else {
-                    cont = false;
-                }
-
+                    //i++;
+                } 
             }
 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         //prints last member processed
-        System.out.println("Person First Name: " + member.getFirstName());
-        System.out.println("Person Last Name: " + member.getLastName());
-        System.out.println("Person Address: " + member.getAddress());
-        System.out.println("Person Phone Number: " + member.getPhNumber());
+//        System.out.println("Person First Name: " + member.getFirstName());
+//        System.out.println("Person Last Name: " + member.getLastName());
+//        System.out.println("Person Address: " + member.getAddress());
+//        System.out.println("Person Phone Number: " + member.getPhNumber());
 
 //        //converts members to byte for UDP 
 //        StringBuilder str = new StringBuilder();
@@ -106,7 +108,7 @@ public class UDPServer {
 //        System.out.println(str);
 //        byte[] table = str.toString().getBytes();
         StringBuilder msg = new StringBuilder();
-        System.out.println(msg);
+        //System.out.println(msg);
         for (String eachstring : details) {
 
             // Each element in ArrayList followed by a colon
@@ -121,7 +123,7 @@ public class UDPServer {
         if (message.length() > 0) {
             message = message.substring(0, message.length() - 1);
         }
-        System.out.println(message);
+        //System.out.println(message);
 
         //message is converted as byte and returned
         byte[] table = message.getBytes();
