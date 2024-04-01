@@ -102,11 +102,6 @@ public class UDPServer {
 //        System.out.println("Person Address: " + member.getAddress());
 //        System.out.println("Person Phone Number: " + member.getPhNumber());
 
-//        //converts members to byte for UDP 
-//        StringBuilder str = new StringBuilder();
-//        str.append(details);
-//        System.out.println(str);
-//        byte[] table = str.toString().getBytes();
         StringBuilder msg = new StringBuilder();
         //System.out.println(msg);
         for (String eachstring : details) {
